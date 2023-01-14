@@ -9,6 +9,12 @@ module.exports = {
       fontFamily: {
         body: ["Poppins", "sans-serif"]
       }
+    },
+    backgroundSize: {
+      auto: "auto",
+      cover: "cover",
+      contain: "contain",
+      "100-2": "100% 2px"
     }
   },
   plugins: []

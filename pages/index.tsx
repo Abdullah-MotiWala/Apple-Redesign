@@ -3,10 +3,18 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import Header from "../components/Header";
+import Landing from "../components/Landing";
+import NewPromos from "../components/NewPromos";
+import { fetchCategories } from "../utils/fetchCategories";
+import { GetServerSideProps, NextPage } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+interface Props {
+  categories: Category[];
+}
+
+export default function Home({ categories }: Props) {
   return (
     <>
       <Head>
@@ -16,6 +24,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+      <main className="relative h-[200vh] bg-[#E7ECEE] ">
+        <Landing />
+      </main>
+      <section className="relative z-40 -mt-[100vh] min-h-screen bg-[#1b1b1b]">
+        <NewPromos categories={categories} />
+      </section>
     </>
   );
 }
+
+// BE Code
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  params: any
+) => {
+  const categories = await fetchCategories();
+  return {
+    props: {
+      categories
+      // categories
+    }
+  };
+};
