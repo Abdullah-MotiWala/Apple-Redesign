@@ -23,4 +23,7 @@
   .borderGradient {
     @apply bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] bg-100-2 bg-left-bottom bg-no-repeat pb-[5px] text-center;
   }
+  .tabPanel {
+    @apply grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3;
+  }
 }

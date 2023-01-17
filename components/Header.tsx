@@ -6,10 +6,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../redux/slices/cartReducer";
 
 const Header: FunctionComponent = () => {
   const [session, setSession] = useState<string>("");
-
+  const items = useSelector(selectCartItems);
   return (
     <header className="sticky top-0 z-30 flex w-full justify-between bg-[#E7ECEE]  py-2 px-4">
       <div className="flex w-1/5 items-center justify-center">
@@ -43,9 +45,11 @@ const Header: FunctionComponent = () => {
         <MagnifyingGlassIcon className="headerLink h-6 w-6" />
         <Link href={"/checkout"}>
           <div className="relative cursor-pointer">
-            <span className="gradientComponent absolute -right-1 -top-1 z-50  flex h-4 w-4 items-center justify-center rounded-full text-xs text-[10px] text-white">
-              5
-            </span>
+            {!!items.length && (
+              <span className="gradientComponent absolute -right-1 -top-1 z-50  flex h-4 w-4 items-center justify-center rounded-full text-xs text-[10px] text-white">
+                {items.length}
+              </span>
+            )}
             <ShoppingBagIcon className="headerLink h-6 w-6" />
           </div>
         </Link>

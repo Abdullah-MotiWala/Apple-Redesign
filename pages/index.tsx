@@ -7,14 +7,16 @@ import Landing from "../components/Landing";
 import NewPromos from "../components/NewPromos";
 import { fetchCategories } from "../utils/fetchCategories";
 import { GetServerSideProps, NextPage } from "next";
+import { fetchProducts } from "../utils/fetchProducts";
 
 const inter = Inter({ subsets: ["latin"] });
 
 interface Props {
   categories: Category[];
+  products : Product[]
 }
 
-export default function Home({ categories }: Props) {
+export default function Home({ categories,products }: Props) {
   return (
     <>
       <Head>
@@ -28,7 +30,7 @@ export default function Home({ categories }: Props) {
         <Landing />
       </main>
       <section className="relative z-40 -mt-[100vh] min-h-screen bg-[#1b1b1b]">
-        <NewPromos categories={categories} />
+        <NewPromos categories={categories} products={products}/>
       </section>
     </>
   );
@@ -39,10 +41,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   params: any
 ) => {
   const categories = await fetchCategories();
+  const products = await fetchProducts();
+
   return {
     props: {
       categories
-      // categories
+      ,products
     }
   };
 };

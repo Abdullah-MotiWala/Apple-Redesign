@@ -40,10 +40,11 @@ export default {
       title: 'Price',
       type: 'number',
     },
-    // {
-    //   name: 'description',
-    //   title: 'Description',
-    //   type: 'blockContent',
-    // },
+    {
+      title: 'Description',
+      name: 'description',
+      type: 'array',
+      of: [{type: 'block'}],
+    },
   ],
 }
