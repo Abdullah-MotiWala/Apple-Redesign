@@ -2,8 +2,9 @@ import Image from "next/image";
 import React, { FunctionComponent, useState } from "react";
 import {
   MagnifyingGlassIcon,
-  ShoppingBagIcon
 } from "@heroicons/react/24/solid";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useSelector } from "react-redux";

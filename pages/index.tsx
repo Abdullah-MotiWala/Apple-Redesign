@@ -8,15 +8,16 @@ import NewPromos from "../components/NewPromos";
 import { fetchCategories } from "../utils/fetchCategories";
 import { GetServerSideProps, NextPage } from "next";
 import { fetchProducts } from "../utils/fetchProducts";
+import Cart from "../components/Cart";
 
 const inter = Inter({ subsets: ["latin"] });
 
 interface Props {
   categories: Category[];
-  products : Product[]
+  products: Product[];
 }
 
-export default function Home({ categories,products }: Props) {
+export default function Home({ categories, products }: Props) {
   return (
     <>
       <Head>
@@ -26,11 +27,13 @@ export default function Home({ categories,products }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+
+      <Cart />
       <main className="relative h-[200vh] bg-[#E7ECEE] ">
         <Landing />
       </main>
       <section className="relative z-40 -mt-[100vh] min-h-screen bg-[#1b1b1b]">
-        <NewPromos categories={categories} products={products}/>
+        <NewPromos categories={categories} products={products} />
       </section>
     </>
   );
@@ -45,8 +48,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   return {
     props: {
-      categories
-      ,products
+      categories,
+      products
     }
   };
 };
