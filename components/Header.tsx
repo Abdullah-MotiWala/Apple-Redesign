@@ -1,17 +1,16 @@
 import Image from "next/image";
 import React, { FunctionComponent, useState } from "react";
-import {
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../redux/slices/cartReducer";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header: FunctionComponent = () => {
-  const [session, setSession] = useState<string>("");
+  const { data: session } = useSession();
   const items = useSelector(selectCartItems);
   return (
     <header className="sticky top-0 z-30 flex w-full justify-between bg-[#E7ECEE]  py-2 px-4">
@@ -57,18 +56,18 @@ const Header: FunctionComponent = () => {
 
         {session ? (
           <Image
-            src={session.user.logo || "https://google.com"}
+            src={
+              session.user?.image ||
+              "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+            }
             alt="image"
             className="rounded-fulll cursor-pointer"
             width={34}
             height={34}
-            // onClick={() => signOut()}
+            onClick={() => signOut()}
           />
         ) : (
-          <UserIcon
-            className="headerLink h-6 w-6"
-            // onClick={()=>signIn()}
-          />
+          <UserIcon className="headerLink h-6 w-6" onClick={() => signIn()} />
         )}
       </div>
     </header>

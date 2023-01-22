@@ -37,3 +37,18 @@ interface Product {
   };
   title: string;
 }
+
+interface StripeProduct {
+  id: String;
+  amount_discount: number;
+  amount_subtotal: number;
+  amount_tax: number;
+  amout_total: number;
+  currency: string;
+  description: string;
+  object: string;
+  quantity: number;
+  price: {
+    unit_amount: number;
+  };
+}

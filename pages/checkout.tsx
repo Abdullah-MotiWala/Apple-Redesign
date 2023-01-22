@@ -9,6 +9,10 @@ import CheckoutProduct from "../components/CheckoutProduct";
 import { selectCartItems, selectCartTotal } from "../redux/slices/cartReducer";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Header from "../components/Header";
+import { Stripe } from "stripe";
+import { fetchPostJSON } from "../utils/api-helpers";
+import getStripe from "../utils/get-strips";
+import { toast, Toaster } from "react-hot-toast";
 
 const Checkout: NextPage = () => {
   const items = useSelector(selectCartItems);
@@ -18,6 +22,7 @@ const Checkout: NextPage = () => {
   const [groupedItemCart, setGroupedItemCart] = useState<{
     [key: string]: Product[];
   }>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const groupedItem = items.reduce((result, item) => {
@@ -27,6 +32,43 @@ const Checkout: NextPage = () => {
 
     setGroupedItemCart(groupedItem);
   }, [items]);
+
+  const checkOutHandler = async () => {
+    setLoading(true);
+    try {
+      const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
+        "/api/checkout_sessions",
+        {
+          items: items
+        }
+      );
+
+      // Internal Server Error
+      if ((checkoutSession as any).statusCode === 500) {
+        toast.error((checkoutSession as any).message, {
+          position: "bottom-center"
+        });
+        console.error((checkoutSession as any).message);
+        return;
+      }
+
+      // Redirect to checkout
+      const stripe = await getStripe();
+      const { error } = await stripe!.redirectToCheckout({
+        sessionId: checkoutSession.id
+      });
+
+      toast.error(error.message as string, {
+        position: "bottom-center"
+      });
+
+      console.warn(error);
+    } catch (error: any) {
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#E7ECEE]">
@@ -38,7 +80,7 @@ const Checkout: NextPage = () => {
       <Header />
       <main className="mx-auto max-w-5xl pb-24">
         <div className="px-5">
-          <h1 className="font-semibold my-2 text-2xl lg:text-3xl">
+          <h1 className="my-2 text-2xl font-semibold lg:text-3xl">
             {items.length ? "Review your cart" : "Your cart is empty"}
           </h1>
           <p className="my-2">Free delivery and free returns</p>
@@ -51,7 +93,7 @@ const Checkout: NextPage = () => {
         </div>
 
         {/* Object.entneries returns the array of key array of containing key value array pair */}
-        {items.length && (
+        {!!items.length && (
           <div className="mx-5 md:mx-8">
             {Object.entries(groupedItemCart).map(([key, items]) => (
               <CheckoutProduct key={key} items={items} id={key} />
@@ -116,12 +158,18 @@ const Checkout: NextPage = () => {
                     <Currency quantity={totalAmout} currency="USD" />
                   </span>
                 </h4>
-                <Button noIcon title="Check Out" width="w-full" />
+                <Button
+                  noIcon
+                  title="Check Out"
+                  width="w-full"
+                  onClick={checkOutHandler}
+                />
               </div>
             </div>
           </div>
         )}
       </main>
+      <Toaster />
     </div>
   );
 };
