@@ -5,6 +5,7 @@
 /.pnp
 /apple-store-sanity/node_modules
 .pnp.js
+/apple-store-sanity
 
 # testing
 /coverage
