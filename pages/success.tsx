@@ -89,8 +89,9 @@ const Success: NextPage<Props> = ({ products }) => {
             <div className="space-y-2 pb-3">
               <p>Your order is confirmed</p>
               <p className="text-sm text-gray-600">
-                We've accepted your order, and we're getting it ready. Come back
-                to this page for the update on your shipment status
+                We&apos;ve accepted your order and we&apos;re getting it
+                ready. Come back to this page for the update on your shipment
+                status
               </p>
             </div>
             <div className="pt-2 text-sm ">
@@ -102,7 +103,7 @@ const Success: NextPage<Props> = ({ products }) => {
           <div className="rouded-md my-4 mx-4 space-y-4 rounded-md border border-gray-300 p-4 lg:ml-14">
             <p className="">Other Updates</p>
             <p className="text-sm text-gray-600">
-              You'll get shipping and delivery updates by text and email
+              You&apos;ll get shipping and delivery updates by text and email
             </p>
           </div>
 
