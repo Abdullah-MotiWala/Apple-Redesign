@@ -18,7 +18,7 @@ interface Props {
   products: StripeProduct[];
 }
 
-const success: NextPage<Props> = ({ products }) => {
+const Success: NextPage<Props> = ({ products }) => {
   const { data: session } = useSession();
   // States
   const [mounted, setMounted] = useState<Boolean>(false);
@@ -212,7 +212,7 @@ const success: NextPage<Props> = ({ products }) => {
   );
 };
 
-export default success;
+export default Success;
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({
   query
