@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Button from "../components/Button";
 import { fetchedLineItems } from "../utils/fetchedLineItems";
-import product from "../apple-store-sanity/schemas/product";
 import { useSession } from "next-auth/react";
 // Interfaces
 interface Props {
